@@ -10,8 +10,10 @@
 // Il parametro response serve per accedere all'oggetto JSON risultato dalla nostra chiamata
 
 // Prendiamo i nostri elementi HTML
-const ulElement = document.querySelector("ul");
+const olElement = document.querySelector("ol");
 const apiButton = document.getElementById("apiButton");
+const numAPIInput = document.getElementById("numAPI");
+// console.log(numAPIInput);
 
 // Facciamo una funzione per poter richiamare le chiamate api quando vogliamo
 const callAPI = (numAPICall) => {
@@ -36,7 +38,7 @@ const callAPI = (numAPICall) => {
 
         // Solo se siamo all'ultima iterazione del ciclo mandiamo la nostra stringa contenente tutte le lista html al nostro elemento ul preso prima (Stiamo assegnando non aggiungendo)
         if (i == numAPICall) {
-          ulElement.innerHTML = stringaHTMLCompleta;
+          olElement.innerHTML = stringaHTMLCompleta;
           // Controlliamo la stringa che viene passata
           console.log(
             "Siamo all'ultimo giro del ciclo e abbiamo la stringa HTML pronta ",
@@ -49,13 +51,56 @@ const callAPI = (numAPICall) => {
 };
 
 // Chiamo la funzione che mi fa tot numero di chiamate API
-callAPI(5);
+callAPI(10);
 
 // Se clicco apiButton mi richiami la funzione che mi fa TOT numero di chiamate API
 apiButton.addEventListener("click", (event) => {
   // Impediamo alla pagina di aggiornarsi
   event.preventDefault();
 
+  // Prendo il valore dall'input e lo converto in tipo number
+  const numeroAPIDaFare = parseInt(numAPIInput.value);
+  // console.log(typeof numeroAPIDaFare);
+
   // Richiamo la funzione che mi fa un certo numero di chiamate API
-  callAPI(5);
+  // Il numero di chiamate API da fare lo prendiamo dall'input (numAPIInput)
+  callAPI(numeroAPIDaFare);
 });
+
+// Versione di GPT che dice di contare le chiamate API eseguite con successo ed alla fine di tutte aggiornare il file html
+// const olElement = document.querySelector("ol");
+// const apiButton = document.getElementById("apiButton");
+
+// const callAPI = (numAPICall) => {
+//   const promises = [];
+//   console.log("Array promises: ",promises);
+
+//   // Collect all API calls into an array of promises
+//   for (let i = 1; i <= numAPICall; i++) {
+//     promises.push(
+//       axios.get("https://flynn.boolean.careers/exercises/api/random/mail")
+//     );
+//   }
+
+//   // Wait for all API calls to complete
+//   Promise.all(promises).then((responses) => {
+//     // Generate the HTML string using all responses
+//     const stringaHTMLCompleta = responses
+//       .map((response) => `<li>${response.data.response}</li>`)
+//       .join("");
+
+//     // Update the DOM with the complete HTML string
+//     olElement.innerHTML = stringaHTMLCompleta;
+
+//     console.log("All API calls completed, HTML updated:", stringaHTMLCompleta);
+//   });
+// };
+
+// // Call the function initially
+// callAPI(5);
+
+// // Add event listener for the button
+// apiButton.addEventListener("click", (event) => {
+//   event.preventDefault();
+//   callAPI(5);
+// });
